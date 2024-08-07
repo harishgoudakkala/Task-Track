@@ -1,5 +1,5 @@
 const _ = require('lodash')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const User = require('../Models/UserModels.js')
 const profile = require('../Models/ProfileModel.js')
 // const { validationResult } = require('express-validator')

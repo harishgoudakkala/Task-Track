@@ -1,5 +1,5 @@
 const crypto = require('crypto')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 const otpGenerator = (length) => {
     const chars = '123456789'
