@@ -11,7 +11,7 @@ passport.use(
             clientID: GOOGLE_CLIENT_ID,
             clientSecret: GOOGLE_CLIENT_SECRET,
             callbackURL:
-                'http://localhost:8000/api/users/auth/google/callback',
+                'https://task-track-apie.vercel.app/api/users/auth/google/callback',
         },
         function (accessToken, refreshToken, profile, done) {
             done(null, profile)

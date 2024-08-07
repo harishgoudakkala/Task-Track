@@ -47,9 +47,9 @@ const googleAuthLogin = async (req, res) => {
         if (user) {
             if (user.is_verified) {
                 const token = createEncryptedToken(res, { userId: user._id.toString() });
-                redirectUrl = `http://localhost:3000/authResponse?userExist=1&token=${token}`;
+                redirectUrl = `https://task-track-five.vercel.app/authResponse?userExist=1&token=${token}`;
             } else {
-                return res.redirect(`http://localhost:3000/authResponse?userExist=0`);
+                return res.redirect(`https://task-track-five.vercel.app/authResponse?userExist=0`);
             }
         } else {
             user = new User({
@@ -61,7 +61,7 @@ const googleAuthLogin = async (req, res) => {
             await user.save();
 
             const token = createEncryptedToken(res, { userId: user._id.toString() });
-            redirectUrl = `http://localhost:3000/authResponse?userExist=0&token=${token}`;
+            redirectUrl = `https://task-track-five.vercel.app/authResponse?userExist=0&token=${token}`;
         }
 
         return res.redirect(redirectUrl);
