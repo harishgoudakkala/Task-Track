@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const bcrypt = require('bcrypt')
-const User = require('../Models/userModels.js')
+const User = require('../Models/UserModels.js')
 const profile = require('../Models/ProfileModel.js')
 // const { validationResult } = require('express-validator')
 const { otpGenerator, hashPassword } = require('./helpers/utils.js')

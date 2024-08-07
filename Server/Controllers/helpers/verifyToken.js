@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const crypto = require('crypto');
 const secretKey = process.env.secretKey;
 const encryptionSecret = process.env.encryptionSecret;
-const User = require("../../Models/userModels.js");
+const User = require("../../Models/UserModels.js");
 
 function encrypt(text) {
     // AES 256 GCM Mode
