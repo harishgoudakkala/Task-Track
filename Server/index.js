@@ -16,7 +16,7 @@ const app = express();
 app.use(helmet());
 app.use(cookieParser());
 
-const allowedOrigins = ["https://task-track-five.vercel.app, http://localhost:3000"];
+const allowedOrigins = ["https://task-track-five.vercel.app", "http://localhost:3000"];
 
 app.use(
   cors({
