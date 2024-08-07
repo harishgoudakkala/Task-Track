@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const User = require('../Models/UserModels');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const { createEncryptedToken } = require('./helpers/verifyToken');
 // const { validationResult } = require('express-validator')
 // const { auditLog } = require('../config/audit')
