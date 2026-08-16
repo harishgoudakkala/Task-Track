@@ -5,19 +5,20 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import TaskList from './components/TaskList';
 import AuthResponse from './components/Pages/AuthResponse';
 import Tasks from './components/TaskList';
-import SignIn from './components/SignUp';
-import LoginAndSignup from './components/Pages/LoginandSignup';
+import SignUp from './components/SignUp';
+import Login from './components/Login'
 
 function App() {
   return (
     <Router>
       <Container>
         <Routes>
-          <Route path="/" element={<LoginAndSignup/>} />
+          <Route path="/" element={<SignUp/>} />
           <Route path="/authResponse/*" element={<AuthResponse/>} />
           <Route path="/tasks" element={<Tasks/>} />
-          <Route path="/signin" element={<SignIn/>} />
-        </Routes>
+          <Route path="/signup" element={<SignUp/>} />
+          <Route path="/login" element={<Login/>} />
+          </Routes>
       </Container>
     </Router>
   );

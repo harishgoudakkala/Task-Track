@@ -109,20 +109,136 @@ const TaskList = () => {
     <Draggable draggableId={task._id} index={index}>
       {(provided) => (
         <Card
-          sx={{ minHeight: 150, mb: 2, borderRadius: 2, p: 2 }}
+        sx={{
+          mb: 2,
+          borderRadius: 2.5,
+          background: '#ffffff',
+          transition: 'all 0.2s ease',
+          cursor: 'grab',
+      
+          '&:hover': {
+            transform: 'translateY(-2px)',
+            boxShadow: '0 8px 20px rgba(15, 23, 42, 0.10)',
+            borderColor: '#c7d2fe',
+          },
+      
+          '&:active': {
+            cursor: 'grabbing',
+          },
+        }}
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <CardContent>
-            <Typography variant="h6" sx={{ fontSize: '0.875rem' }}>{task.title}</Typography>
-            <Typography variant="body2" sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>Priority: {task.priority}</Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-              <Button variant="outlined" size="small" onClick={() => handleView(task)}>View</Button>
-              <Button variant="contained" size="small" onClick={() => handleEdit(task)}>Edit</Button>
-              <Button variant="outlined" color="error" size="small" onClick={() => handleDelete(task._id)}>Delete</Button>
-            </Box>
-          </CardContent>
+        <CardContent sx={{ p: 2.5, '&:last-child': { pb: 2.5 } }}>
+
+        <Typography
+          sx={{
+            fontWeight: 650,
+            fontSize: '15px',
+            color: '#172033',
+            mb: 1,
+          }}
+        >
+          {task.title}
+        </Typography>
+      
+        <Typography
+          sx={{
+            fontSize: '13px',
+            color: '#64748b',
+            mb: 2,
+          }}
+        >
+          {task.description || 'No description'}
+        </Typography>
+      
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            mb: 2,
+          }}
+        >
+          <Box
+            sx={{
+              px: 1.2,
+              py: 0.5,
+              borderRadius: 1.5,
+              fontSize: '11px',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+      
+              bgcolor:
+                task.priority === 'high'
+                  ? '#fef2f2'
+                  : task.priority === 'medium'
+                  ? '#fffbeb'
+                  : '#f0fdf4',
+      
+              color:
+                task.priority === 'high'
+                  ? '#dc2626'
+                  : task.priority === 'medium'
+                  ? '#d97706'
+                  : '#16a34a',
+            }}
+          >
+            {task.priority}
+          </Box>
+      
+          {task.dueDate && (
+            <Typography
+              sx={{
+                fontSize: '11px',
+                color: '#94a3b8',
+              }}
+            >
+              Due {new Date(task.dueDate).toLocaleDateString()}
+            </Typography>
+          )}
+        </Box>
+      
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 1,
+          }}
+        >
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => handleView(task)}
+            sx={{ flex: 1 }}
+          >
+            View
+          </Button>
+      
+          <Button
+            variant="contained"
+            size="small"
+            onClick={() => handleEdit(task)}
+            sx={{ flex: 1 }}
+          >
+            Edit
+          </Button>
+      
+          <Button
+            variant="outlined"
+            color="error"
+            size="small"
+            onClick={() => handleDelete(task._id)}
+            sx={{
+              minWidth: 42,
+              px: 1,
+            }}
+          >
+            ×
+          </Button>
+        </Box>
+      
+      </CardContent>
         </Card>
       )}
     </Draggable>
@@ -181,14 +297,53 @@ const TaskList = () => {
         ))}
         <MenuItem onClick={handleAddProfile}>Add Profile</MenuItem>
       </Menu>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleOpenCreateTaskForm}
-        sx={{ mt: 2, width: '50%', backgroundColor: 'primary.main', mr: "auto", ml: "auto", maxWidth: 200 }}
-      >
-        Add Task
-      </Button>
+      <Box
+  sx={{
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    maxWidth: '1400px',
+    mx: 'auto',
+    px: { xs: 2, md: 4 },
+    py: 3,
+  }}
+>
+  <Box>
+    <Typography
+      sx={{
+        fontSize: '24px',
+        fontWeight: 700,
+        color: '#172033',
+      }}
+    >
+      My Tasks
+    </Typography>
+
+    <Typography
+      sx={{
+        color: '#64748b',
+        fontSize: '14px',
+        mt: 0.5,
+      }}
+    >
+      Organize and track your work
+    </Typography>
+  </Box>
+
+  <Button
+    variant="contained"
+    onClick={handleOpenCreateTaskForm}
+    sx={{
+      px: 2.5,
+      py: 1.2,
+      borderRadius: 2,
+      fontWeight: 700,
+      boxShadow: '0 4px 12px rgba(79, 70, 229, 0.25)',
+    }}
+  >
+    + Add Task
+  </Button>
+</Box>
       <CreateTaskForm
         open={isCreateTaskFormOpen}
         onClose={handleCloseCreateTaskForm}
@@ -258,17 +413,72 @@ const TaskList = () => {
       )}
       
       <DragDropContext onDragEnd={onDragEnd}>
-  <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+      <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: {
+          xs: '1fr',
+          md: 'repeat(3, minmax(0, 1fr))',
+        },
+        gap: 2.5,
+        width: '100%',
+        maxWidth: '1400px',
+        mx: 'auto',
+        px: { xs: 2, md: 4 },
+        pb: 5,
+      }}
+    >
     <Droppable droppableId="in-progress">
       {(provided) => (
         <Box
           ref={provided.innerRef}
           {...provided.droppableProps}
-          sx={{ flex: 1, mr: 2 }}
+          sx={{
+            minWidth: 0,
+            background: '#eef2f7',
+            borderRadius: 3,
+            p: 2,
+            minHeight: 500,
+            border: '1px solid #e2e8f0',
+          }}
         >
-          <Typography variant="h5" sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }}>
-            In Progress
-          </Typography>
+        <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          mb: 2,
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: '14px',
+            fontWeight: 700,
+            color: '#334155',
+          }}
+        >
+          In Progress
+        </Typography>
+      
+        <Box
+          sx={{
+            minWidth: 28,
+            height: 28,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '50%',
+            bgcolor: '#dbeafe',
+            color: '#2563eb',
+            fontSize: '12px',
+            fontWeight: 700,
+          }}
+        >
+          {filteredTasks.filter(
+            task => task.status === 'in-progress'
+          ).length}
+        </Box>
+      </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             {filteredTasks.filter(task => task.status === 'in-progress').map((task, index) => (
               <TaskCard key={task._id} task={task} index={index} />
@@ -284,11 +494,52 @@ const TaskList = () => {
         <Box
           ref={provided.innerRef}
           {...provided.droppableProps}
-          sx={{ flex: 1, mr: 2 }}
+          sx={{
+            minWidth: 0,
+            background: '#eef2f7',
+            borderRadius: 3,
+            p: 2,
+            minHeight: 500,
+            border: '1px solid #e2e8f0',
+          }}
         >
-          <Typography variant="h5" sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }}>
-            Pending
-          </Typography>
+        <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          mb: 2,
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: '14px',
+            fontWeight: 700,
+            color: '#334155',
+          }}
+        >
+          Pending
+        </Typography>
+      
+        <Box
+          sx={{
+            minWidth: 28,
+            height: 28,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '50%',
+            bgcolor: '#dbeafe',
+            color: '#2563eb',
+            fontSize: '12px',
+            fontWeight: 700,
+          }}
+        >
+          {filteredTasks.filter(
+            task => task.status === 'pending'
+          ).length}
+        </Box>
+      </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             {filteredTasks.filter(task => task.status === 'pending').map((task, index) => (
               <TaskCard key={task._id} task={task} index={index} />
@@ -304,11 +555,52 @@ const TaskList = () => {
         <Box
           ref={provided.innerRef}
           {...provided.droppableProps}
-          sx={{ flex: 1, mr: 2 }}
+          sx={{
+            minWidth: 0,
+            background: '#eef2f7',
+            borderRadius: 3,
+            p: 2,
+            minHeight: 500,
+            border: '1px solid #e2e8f0',
+          }}
         >
-          <Typography variant="h5" sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }}>
-            Completed
-          </Typography>
+        <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          mb: 2,
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: '14px',
+            fontWeight: 700,
+            color: '#334155',
+          }}
+        >
+          Completed
+        </Typography>
+      
+        <Box
+          sx={{
+            minWidth: 28,
+            height: 28,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '50%',
+            bgcolor: '#dbeafe',
+            color: '#2563eb',
+            fontSize: '12px',
+            fontWeight: 700,
+          }}
+        >
+          {filteredTasks.filter(
+            task => task.status === 'completed'
+          ).length}
+        </Box>
+      </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             {filteredTasks.filter(task => task.status === 'completed').map((task, index) => (
               <TaskCard key={task._id} task={task} index={index} />
